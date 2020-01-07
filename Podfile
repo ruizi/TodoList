@@ -6,6 +6,7 @@ target 'TodoList' do
   use_frameworks!
   pod 'Alamofire'
   pod 'Toast-Swift'
+  pod 'SwiftyJSON', '~> 4.0'
   # Pods for TodoList
 
 end
