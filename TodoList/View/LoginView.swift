@@ -80,7 +80,9 @@ struct LoginView: View {
                         // forgot password
                         HStack {
                             Spacer()
-                            Button(action: /*@START_MENU_TOKEN@*/{}/*@END_MENU_TOKEN@*/) {
+                            Button(action: /*@START_MENU_TOKEN@*/{
+                                // add actions
+                            }/*@END_MENU_TOKEN@*/) {
                                 Text("Forgot Password?")
                                     .scaledFont(name: "RobotoSlab-Light", size: 14)
                                     .foregroundColor(Color(#colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)))
