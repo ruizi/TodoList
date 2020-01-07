@@ -108,7 +108,6 @@ struct LoginView: View {
 //                            print("此时不止有一名用户在本地登录APP!")
 //                        }
 //                        else {
-                        //18811610600@163.com
                         let parameters: Dictionary = ["email": self.email,
                                                       "password": self.password, ]
                         Alamofire.request("https://ruitsai.tech/login_api/", method: .post, parameters: parameters)
