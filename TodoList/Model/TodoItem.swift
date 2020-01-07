@@ -12,4 +12,5 @@ class TodoItem: NSManagedObject {
     @NSManaged var checked: Bool
     @NSManaged var dueDate: Date
     @NSManaged var detail: String
+    @NSManaged var timeStamp: String
 }
