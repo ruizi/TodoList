@@ -3,3 +3,4 @@ this is an SwiftUI IOS reminder app which used to set up some reminder in your d
 
 thanks for reading
 
+rui
