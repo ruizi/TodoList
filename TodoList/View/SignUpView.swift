@@ -50,14 +50,14 @@ struct SignUpView: View {
                             // 输入用户名
                             VStack(alignment: .center, spacing: 10) {
                                 HStack(alignment: .center, spacing: 10) {// input username
-                                    Image("username")
+                                    Image(systemName: "person").foregroundColor(Color.white)
                                             .frame(width: 20, height: 20)
                                     CustomTextField(
                                             placeholder: Text("Enter your Username")
                                                     .foregroundColor(Color(#colorLiteral(red: 1, green: 1, blue: 1, alpha: 1))),
                                             text: $username)
                                     if username != "" {
-                                        Image("checkmark").foregroundColor(Color.init(.label))
+                                        Image(systemName: "checkmark.circle.fill").foregroundColor(Color.green)
                                     }
                                 }
                                 Divider()
@@ -67,14 +67,14 @@ struct SignUpView: View {
                             // 输入邮箱
                             VStack(alignment: .center, spacing: 10) {
                                 HStack(alignment: .center, spacing: 10) {// input username
-                                    Image("username")
+                                    Image(systemName: "envelope").foregroundColor(Color.white)
                                             .frame(width: 20, height: 20)
                                     CustomTextField(
                                             placeholder: Text("Enter your Email")
                                                     .foregroundColor(Color(#colorLiteral(red: 1, green: 1, blue: 1, alpha: 1))),
                                             text: $email)
                                     if email != "" {
-                                        Image("checkmark").foregroundColor(Color.init(.label))
+                                        Image(systemName: "checkmark.circle.fill").foregroundColor(Color.green)
                                     }
                                 }
                                 Divider()
@@ -84,14 +84,14 @@ struct SignUpView: View {
                             // 输入密码
                             VStack(alignment: .center, spacing: 10) {
                                 HStack(alignment: .center, spacing: 10) {// input username
-                                    Image("password")
+                                    Image(systemName: "lock").foregroundColor(Color.white)
                                             .frame(width: 20, height: 20)
                                     CustomSecureField(
                                             placeholder: Text("Enter your Password")
                                                     .foregroundColor(Color(#colorLiteral(red: 1, green: 1, blue: 1, alpha: 1))),
                                             password: $password)
                                     if password != "" {
-                                        Image("checkmark").foregroundColor(Color.init(.label))
+                                        Image(systemName: "checkmark.circle.fill").foregroundColor(Color.green)
                                     }
                                 }
                                 Divider()
@@ -101,14 +101,14 @@ struct SignUpView: View {
                             // 确认密码
                             VStack(alignment: .leading, spacing: 10) {
                                 HStack(alignment: .center, spacing: 10) {
-                                    Image("password")
+                                    Image(systemName: "lock").foregroundColor(Color.white)
                                             .frame(width: 20, height: 20, alignment: .center)
                                     CustomSecureField(
                                             placeholder: Text("Enter your password again").foregroundColor(Color(#colorLiteral(red: 1, green: 1, blue: 1, alpha: 1))),
                                             password: $conformedPassword
                                     )
                                     if conformedPassword != "" && conformedPassword == password {
-                                        Image("checkmark").foregroundColor(Color.init(.label))
+                                        Image(systemName: "checkmark.circle.fill").foregroundColor(Color.green)
                                     }
                                 }
                                 Divider()
