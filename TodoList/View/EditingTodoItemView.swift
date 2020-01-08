@@ -7,16 +7,19 @@
 //
 
 import SwiftUI
+import Alamofire
+import SwiftyJSON
 
 struct EditingTodoItemView: View {
     // 保存数据使用的环境变量
     @Environment(\.managedObjectContext) var managedObjectContext
 
     // 点击取消按钮就关闭页面使用的环境变量
-    @Environment(\.presentationMode) var presentatonMode:Binding<PresentationMode>
+    @Environment(\.presentationMode) var presentatonMode: Binding<PresentationMode>
 
     // 依照dueDate的大小升序排列
     @FetchRequest(entity: TodoItem.entity(), sortDescriptors: [NSSortDescriptor(key: "dueDate", ascending: true)]) var todoItems: FetchedResults<TodoItem> // todoItems的类型是FetchedResults<TodoItem>
+    @FetchRequest(entity: User.entity(), sortDescriptors: [NSSortDescriptor(key: "username", ascending: true)]) var users: FetchedResults<User>
 
     @State var index = 0 // 记录将要被修改的todoItem是todoItems中的第几个
     @State var oldTodoItemDetail = ""
@@ -33,6 +36,12 @@ struct EditingTodoItemView: View {
         dateFormatter.dateStyle = .medium
         dateFormatter.timeStyle = .medium
         return dateFormatter
+    }()
+
+    let dateFormatter2: DateFormatter = {
+        let formatter = DateFormatter()
+        formatter.dateFormat = "YYYYMMdd"
+        return formatter
     }()
 
     // form 表格形式
@@ -61,7 +70,35 @@ struct EditingTodoItemView: View {
                     self.todoItems[self.index].detail = self.oldTodoItemDetail
                     self.todoItems[self.index].dueDate = self.oldTodoItemDueDate
                     self.todoItems[self.index].checked = false
+                    let parameters: Dictionary = ["detail": self.todoItems[self.index].detail,
+                                                  "dueDate": self.dateFormatter2.string(from:self.todoItems[self.index].dueDate),
+                                                  "timestamp": self.todoItems[self.index].timeStamp,
+                                                  "email": self.users[0].email, ] as [String: Any]
+                    Alamofire.request("https://ruitsai.tech/records_change_api/", method: .post, parameters: parameters)
+                            .responseJSON { response in
+                                switch response.result.isSuccess {
+                                case true:
+                                    if let value = response.result.value {
 
+                                        let json = JSON(value)
+                                        let state = json[0]["state"].stringValue
+                                        if state == "sync success" {
+                                            // TODO: 跳出一个toast：thanks for register
+                                            print("sync ok")
+                                        } else if state == "repeat" {
+                                            // TODO: 跳出一个toast：ops,Email has been sign up
+                                            print(state)
+                                        } else {
+                                            print("error")
+                                        }
+
+                                    } else {
+                                        print("error happened")
+                                    }
+                                case false:
+                                    print(response.result.error)
+                                }
+                            }
                     do {
                         try self.managedObjectContext.save()
 
@@ -72,7 +109,7 @@ struct EditingTodoItemView: View {
                         print(error)
                     }
                 }) {
-                    Text("Conform Editing").foregroundColor(Color.blue).position(x:170, y: 10).padding()
+                    Text("Conform Editing").foregroundColor(Color.blue).position(x: 170, y: 10).padding()
                 }
 //                .alert(isPresented: $editingTodoItemSuccess) {
 //                    Alert(title: Text("Success"), message: Text("Edit Successfully"))
@@ -81,8 +118,8 @@ struct EditingTodoItemView: View {
                 Button(action: {
                     // 取消添加该代办事项
                     self.presentatonMode.wrappedValue.dismiss()
-                }){
-                    Text("Cancel Editing").foregroundColor(Color.red).position(x:170, y: 10).padding()
+                }) {
+                    Text("Cancel Editing").foregroundColor(Color.red).position(x: 170, y: 10).padding()
                 }
             }
                     .navigationBarTitle("Edit Todo Item")
