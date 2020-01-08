@@ -30,6 +30,7 @@ struct AddTodoItemView: View {
     }()
 
 
+
     // form 表格形式
     var body: some View {
         NavigationView {
@@ -58,6 +59,7 @@ struct AddTodoItemView: View {
                     newTodoItem.detail = self.newTodoItemDetail
                     newTodoItem.dueDate = self.newTodoItemDueDate
                     newTodoItem.checked = false
+                    newTodoItem.timeStamp = self.dateFormatter.string(from: Date())  // "Jan 8, 2020 at 10:07:21 PM"
                     // 使用CoreData保存
                     do {
                         try self.managedObjectContext.save()
