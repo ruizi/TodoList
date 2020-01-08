@@ -41,8 +41,16 @@ struct TodoListView: View {
                                 .foregroundColor(.gray)
                     }
                     Spacer()
+                    Button(action: {
+                        // 从远端同步数据
+                        // 正在使用app的用户的email
+                        var currentUserEmail = self.users[0].email
+                    }){
+                        Image(systemName: "arrow.2.circlepath")
+                    }
+                    Spacer()
                 }
-                        .padding(.leading, 100)
+                .padding(.leading, 100)
 
 
                 ScrollView {
