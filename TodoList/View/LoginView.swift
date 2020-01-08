@@ -122,27 +122,31 @@ struct LoginView: View {
                                     case true:
                                         if let value = response.result.value {
                                             let json = JSON(value)
-                                            let email = json[0]["email"].stringValue
-                                            let password = json[0]["password"].stringValue
-                                            let username = json[0]["name"].stringValue
-                                            print("From LoginView Row 122: Cloud's request: username:", username)
-                                            // 把用户的信息存储到数据库中
-                                            let newUser = User(context: self.managedObjectContext)
-                                            newUser.auth = "authorized"
-                                            newUser.email = email
-                                            newUser.username = username
-                                            newUser.password = password
+                                            let state = json[0]["state"].stringValue
+                                            if state == "pass"{
+                                                let email = json[0]["email"].stringValue
+                                                let password = json[0]["password"].stringValue
+                                                let username = json[0]["name"].stringValue
+                                                print("From LoginView Row 122: Cloud's request: username:", username)
+                                                // 把用户的信息存储到数据库中
+                                                let newUser = User(context: self.managedObjectContext)
+                                                newUser.auth = "authorized"
+                                                newUser.email = email
+                                                newUser.username = username
+                                                newUser.password = password
 
-                                            // 使用CoreData保存
-                                            do {
-                                                try self.managedObjectContext.save()
-                                            } catch {
-//                                                print("***")
-//                                                print(newUser.username)
-//                                                print(newUser.password)
-//                                                print(newUser.email)
-                                                print(error)
+                                                // 使用CoreData保存
+                                                do {
+                                                    try self.managedObjectContext.save()
+                                                } catch {
+                                                    print(error)
+                                                }
                                             }
+                                            else{
+                                                // TODO: 跳出一个弹框：账户错误
+                                                print("账户错误")
+                                            }
+
                                         }
                                         else{
                                             // TODO: 跳出一个弹框：network errors
