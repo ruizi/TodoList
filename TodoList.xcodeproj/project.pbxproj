@@ -47,6 +47,7 @@
 		1A09777323C3109B00C5DDBF /* CustomFonts.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A09777223C3109B00C5DDBF /* CustomFonts.swift */; };
 		1A09777723C3304600C5DDBF /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A09777623C3304600C5DDBF /* HomeView.swift */; };
 		3FBE965FCE6FB7BF3B4BA288 /* TodoInTodayView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FBE9A0905F86F8D953AC0D2 /* TodoInTodayView.swift */; };
+		3FBE997907DE6DF0B7BB3193 /* Toast.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FBE9F2253E7F3A611A2D08E /* Toast.swift */; };
 		3FBE9A2B63EAC97F94775453 /* ForgetPasswordView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FBE94320DE795B112C44933 /* ForgetPasswordView.swift */; };
 		3FBE9AA50281523C8219F22F /* TodoListHomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FBE9DD891CAD47547CB1665 /* TodoListHomeView.swift */; };
 		3FBE9F0471B4C6A3001668DE /* SettingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FBE97B71EA823D6C92D43C8 /* SettingView.swift */; };
@@ -100,6 +101,7 @@
 		3FBE97B71EA823D6C92D43C8 /* SettingView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingView.swift; sourceTree = "<group>"; };
 		3FBE9A0905F86F8D953AC0D2 /* TodoInTodayView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TodoInTodayView.swift; sourceTree = "<group>"; };
 		3FBE9DD891CAD47547CB1665 /* TodoListHomeView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TodoListHomeView.swift; sourceTree = "<group>"; };
+		3FBE9F2253E7F3A611A2D08E /* Toast.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Toast.swift; sourceTree = "<group>"; };
 		AC587E3D0128BCE78535ADAE /* Pods_TodoList.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_TodoList.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		EAFB13061DD550FA84EAAC82 /* Pods-TodoList.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TodoList.release.xcconfig"; path = "Target Support Files/Pods-TodoList/Pods-TodoList.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -199,6 +201,7 @@
 				3FBE9A0905F86F8D953AC0D2 /* TodoInTodayView.swift */,
 				3FBE97B71EA823D6C92D43C8 /* SettingView.swift */,
 				3FBE94320DE795B112C44933 /* ForgetPasswordView.swift */,
+				3FBE9F2253E7F3A611A2D08E /* Toast.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -414,6 +417,7 @@
 				3FBE965FCE6FB7BF3B4BA288 /* TodoInTodayView.swift in Sources */,
 				3FBE9F0471B4C6A3001668DE /* SettingView.swift in Sources */,
 				3FBE9A2B63EAC97F94775453 /* ForgetPasswordView.swift in Sources */,
+				3FBE997907DE6DF0B7BB3193 /* Toast.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
