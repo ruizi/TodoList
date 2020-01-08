@@ -97,9 +97,6 @@ struct SettingView: View {
 
                 Button(action: {
                     // 保存到数据库中
-                    if (true) {
-                        print("11", self.users[0].username, self.users[0].email)
-                    }
                     if (self.newUsername == "") {// 如果用户没有修改用户名
                         self.newUsername = self.oldUsername
                     }
@@ -108,15 +105,11 @@ struct SettingView: View {
                     }
 
                     // TODO: 密码待定
+                    // not include email
 
                     self.users[0].username = self.newUsername
-                    self.users[0].email = self.newEmail
-                    if (true) {
-                        print("22", self.users[0].username, self.users[0].email)
-                    }
 
                     do {
-
                         try self.managedObjectContext.save()
 
                         // Todo:这里需要加一个转圈的toast，等待把新的待办事项送到云端
