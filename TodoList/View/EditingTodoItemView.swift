@@ -57,24 +57,10 @@ struct EditingTodoItemView: View {
 
                 Spacer()
                 Button(action: {
-                    // 先把之前的待办事项删除了
-                    let todoItem = self.todoItems[self.index]
-                    self.managedObjectContext.delete(todoItem)
-                    do {
-                        try self.managedObjectContext.save()
-
-                        // Todo:这里需要加一个转圈的toast，等待云端数据库上删除成功
-
-                    } catch {
-                        print(error)
-                    }
-
-                    // 保存修改过后的待办事项
-                    let changedTodoItem = TodoItem(context: self.managedObjectContext)
-                    // 从What are you gonna do输入框中获取oldTodoItemDetail，这个就是新输入的（更改过后的）新detail
-                    changedTodoItem.detail = self.oldTodoItemDetail
-                    changedTodoItem.dueDate = self.oldTodoItemDueDate
-                    changedTodoItem.checked = false
+                    // 修改这条待办事项的三个property
+                    self.todoItems[self.index].detail = self.oldTodoItemDetail
+                    self.todoItems[self.index].dueDate = self.oldTodoItemDueDate
+                    self.todoItems[self.index].checked = false
 
                     do {
                         try self.managedObjectContext.save()
