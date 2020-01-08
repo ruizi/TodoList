@@ -131,7 +131,11 @@ struct MenuView: View {
     // 保存数据使用的环境变量
     @Environment(\.managedObjectContext) var managedObjectContext
 
+    // 所有的用户
     @FetchRequest(entity: User.entity(), sortDescriptors: [NSSortDescriptor(key: "username", ascending: true)]) var users: FetchedResults<User>
+
+    // 所有的TodoItem
+    @FetchRequest(entity: TodoItem.entity(), sortDescriptors: [NSSortDescriptor(key: "dueDate", ascending: true)]) var todoItems: FetchedResults<TodoItem>
 
     @Binding var showMenu : Bool
     @State private var showSetting = false
@@ -188,7 +192,7 @@ struct MenuView: View {
                     Button(action: {
                         // 登出
                         // 删除用户数据表里的这名用户
-                        // 先把之前的待办事项删除了
+                        // 同时清空本地TodoItem数据表中的所有数据
                         let currentUser = self.users[0]
                         self.managedObjectContext.delete(currentUser)
                         do {
@@ -200,6 +204,17 @@ struct MenuView: View {
 
                         } catch {
                             print(error)
+                        }
+
+                        // 删除本地TodoItem数据库中的所有记录
+                        // 这个操作步骤不用往云端传
+                        for todoItem in self.todoItems {
+                            self.managedObjectContext.delete(todoItem)
+                            do {
+                                try self.managedObjectContext.save()
+                            } catch {
+                                print(error)
+                            }
                         }
                     }) {
                         MenuRow(image: logoutMenu.icon, text: logoutMenu.title)

@@ -29,56 +29,6 @@ struct AddTodoItemView: View {
         return dateFormatter
     }()
 
-    // B up
-    //    var body: some View {
-    //        VStack {
-    //            HStack {
-    //                Button(action: {
-    //                    // 取消添加该代办事项
-    //                    self.presentatonMode.wrappedValue.dismiss()
-    //                }) {
-    //                    Text("取消添加")
-    //                        .padding()
-    //                }
-    //                Spacer()
-    //                Button(action: {
-    //                    // 确认添加该待办事项
-    //                    let newTodoItem = TodoItem(context: self.managedObjectContext)
-    //                    newTodoItem.detail = self.newTodoItemDetail
-    //                    newTodoItem.dueDate = self.newTodoItemDueDate
-    //                    newTodoItem.checked = false
-    //
-    //                    do {
-    //                        try self.managedObjectContext.save()
-    //                    } catch {
-    //                        print("***")
-    //                        print(newTodoItem.detail)
-    //                        print(newTodoItem.dueDate)
-    //                        print(newTodoItem.checked)
-    //                        print(error)
-    //                    }
-    //                    // 使用CoreData保存
-    //
-    //                    self.presentatonMode.wrappedValue.dismiss()
-    //                }) {
-    //                    Text("确认添加")
-    //                        .padding()
-    //                }
-    //            }
-    //
-    //            TextField("What are you gonna do?", text: $newTodoItemDetail)
-    //            .padding(EdgeInsets(top: 8, leading: 8, bottom: 8, trailing: 8))
-    //
-    //            .foregroundColor(.white)
-    //
-    //            DatePicker(selection: $newTodoItemDueDate, displayedComponents: .date, label: { () -> EmptyView in}).padding()
-    //
-    //            Text(dateFormatter.string(from: newTodoItemDueDate))
-    //            Spacer()
-    //        }
-    //        .padding()
-    //        .background(Color("todoDetails-bg").edgesIgnoringSafeArea(.all))
-    //    }
 
     // form 表格形式
     var body: some View {
