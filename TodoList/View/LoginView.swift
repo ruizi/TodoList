@@ -55,7 +55,7 @@ struct LoginView: View {
                             // 输入email
                             VStack(alignment: .center, spacing: 10) {
                                 HStack(alignment: .center, spacing: 10) {// input email
-                                    Image("username") // search email icon
+                                    Image(systemName: "envelope").foregroundColor(Color.white)
                                             .frame(width: 20, height: 20)
                                     CustomTextField(
                                             placeholder: Text("Email")
@@ -69,8 +69,8 @@ struct LoginView: View {
                             // input password
                             VStack(alignment: .leading, spacing: 10) {
                                 HStack(alignment: .center, spacing: 10) {
-                                    Image("password")
-                                            .frame(width: 20, height: 20, alignment: .center)
+                                    Image(systemName: "lock").foregroundColor(Color.white)
+                                            .frame(width: 20, height: 20)
                                     CustomSecureField(
                                             placeholder: Text("Password").foregroundColor(Color(#colorLiteral(red: 1, green: 1, blue: 1, alpha: 1))),
                                             password: $password
