@@ -123,32 +123,29 @@ struct LoginView: View {
                                         if let value = response.result.value {
                                             let json = JSON(value)
                                             let state = json[0]["state"].stringValue
-                                            if state == "pass"{
+                                            if state == "pass" {
                                                 let email = json[0]["email"].stringValue
                                                 let password = json[0]["password"].stringValue
                                                 let username = json[0]["name"].stringValue
-                                                print("From LoginView Row 122: Cloud's request: username:", username)
+
                                                 // 把用户的信息存储到数据库中
                                                 let newUser = User(context: self.managedObjectContext)
                                                 newUser.auth = "authorized"
                                                 newUser.email = email
                                                 newUser.username = username
                                                 newUser.password = password
-
                                                 // 使用CoreData保存
                                                 do {
                                                     try self.managedObjectContext.save()
                                                 } catch {
                                                     print(error)
                                                 }
-                                            }
-                                            else{
+                                            } else {
                                                 // TODO: 跳出一个弹框：账户错误
                                                 print("账户错误")
                                             }
 
-                                        }
-                                        else{
+                                        } else {
                                             // TODO: 跳出一个弹框：network errors
                                             print("error happened")
                                         }
@@ -156,23 +153,46 @@ struct LoginView: View {
                                         print(response.result.error)
                                     }
                                 }
-//                            let currentUser = self.users[0]
-//                            // 验证邮箱和密码
-//                            if (currentUser.email == self.email && currentUser.password == self.password) {
-//                                // 验证通过，允许用户进入todolist界面
-//                                // 待定：修改用户数据表中的auth字段，持久化存储用户的状态
-//                                self.users[0].auth = "authorized"
-//                                do {
-//                                    try self.managedObjectContext.save()
-//                                } catch {
-//                                    print(error)
-//                                }
-//                                self.email = ""
-//                                self.password = ""
-//                            } else {
-//                                // TODO: 跳出弹框：验证失败，提醒用户重新输入邮箱和密码
-//                            }
-                        //                       }
+                        Alamofire.request("https://ruitsai.tech/records_init_sync_api/", method: .post, parameters: parameters)
+                                .responseJSON { response in
+                                    switch response.result.isSuccess {
+                                    case true:
+                                        if let value = response.result.value {
+                                            let json = JSON(value)
+
+                                            print(json)
+//                                            // 把用户的日程信息存入数据库
+//                                            for (index, subJson): (String, JSON) in json {
+//                                                let detail = subJson["detail"].stringValue
+//                                                let dueDate = subJson["due"].stringValue
+//                                                let timestamp = subJson["timestamp"].stringValue
+//                                                let newTodoItem = TodoItem(context: self.managedObjectContext)
+//                                                newTodoItem.detail = detail
+//                                                //newTodoItem.dueDate = dueDate
+//                                                newTodoItem.checked = false
+//                                                newTodoItem.timeStamp = timestamp  // 20200108234117
+//                                                // 使用CoreData保存
+//                                                do {
+//                                                    try self.managedObjectContext.save()
+//                                                } catch {
+//                                                    print("***")
+//                                                    print(newTodoItem.detail)
+//                                                    print(newTodoItem.dueDate)
+//                                                    print(newTodoItem.checked)
+//                                                    print(error)
+//                                                }
+//                                            }
+
+
+                                        } else {
+                                            // TODO: 跳出一个弹框：network errors
+                                            print("error happened")
+                                        }
+                                    case false:
+                                        print(response.result.error)
+                                    }
+                                }
+
                     }) {
                         Image(systemName: "arrow.right")
                                 .accentColor(Color.white)
