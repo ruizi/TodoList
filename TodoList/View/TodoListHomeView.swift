@@ -17,7 +17,7 @@ struct TodoListHomeView: View {
     @State var showMeau: Bool = false  // 默认不显示侧边栏
     @State var showTodoInToday: Bool = false  // 默认不显示今日待办事项
     @State var showTodoList: Bool = true  // 默认为true
-    @State var showCalendar: Bool = false // 默认不显示日历
+//    @State var showCalendar: Bool = false // 默认不显示日历
 
     var body: some View {
         ZStack {
@@ -59,7 +59,8 @@ struct TodoListHomeView: View {
 //                .offset(x: -16, y: showProfile ? statusBarHeight : 88)
 //                .animation(.spring())
 
-            MenuView(showMenu: $showMeau, showTodoInToday: $showTodoInToday, showTodoList: $showTodoList, showCalendar: $showCalendar)
+//            MenuView(showMenu: $showMeau, showTodoInToday: $showTodoInToday, showTodoList: $showTodoList, showCalendar: $showCalendar)
+            MenuView(showMenu: $showMeau, showTodoInToday: $showTodoInToday, showTodoList: $showTodoList)
 
         }
                 .background(Color("background"))
@@ -104,7 +105,7 @@ struct Menu: Identifiable {
 let profileMenu = Menu(title: "Profile", icon: "person.crop.circle")
 let settingMenu = Menu(title: "Setting", icon: "gear")
 let todayMenu = Menu(title: "Today's", icon: "alarm")
-let calendarMenu = Menu(title: "Calendar", icon: "calendar")
+//let calendarMenu = Menu(title: "Calendar", icon: "calendar")
 let logoutMenu = Menu(title: "Logout", icon: "person.crop.circle.badge.minus")
 
 
@@ -141,7 +142,7 @@ struct MenuView: View {
     @State private var showSetting = false
     @Binding var showTodoInToday: Bool
     @Binding var showTodoList: Bool
-    @Binding var showCalendar: Bool
+//    @Binding var showCalendar: Bool
 
 
 
@@ -154,7 +155,7 @@ struct MenuView: View {
                         self.showTodoList = true  // 显示所有的代办事项
                         self.showMenu = false   // 不显示菜单栏
                         self.showTodoInToday = false  // 不显示今日待办事项
-                        self.showCalendar = false // 不显示日历
+//                        self.showCalendar = false // 不显示日历
                     }) {
                         MenuRow(image: profileMenu.icon, text: self.users[0].username + "'s Todo List")
                     }
@@ -168,26 +169,27 @@ struct MenuView: View {
                         SettingView(oldUsername: self.users[0].username, oldEmail: self.users[0].email)
                                 .environment(\.managedObjectContext, (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext)
                     }
+
                     Button(action: {
                         // 今天到期的事项
                         self.showTodoList = false  // 不显示所有的代办事项
                         self.showMenu = false  //  不显示侧边栏
                         self.showTodoInToday = true  // 展示今天到期的
-                        self.showCalendar = false // 不显示日历
+//                        self.showCalendar = false // 不显示日历
                     }) {
                         MenuRow(image: todayMenu.icon, text: todayMenu.title)
                     }
 
 
-                    Button(action: {
-                        // 打开日历
-                        self.showTodoList = false
-                        self.showTodoInToday = false
-                        self.showMenu = false
-                        self.showCalendar = true
-                    }) {
-                        MenuRow(image: calendarMenu.icon, text: calendarMenu.title)
-                    }
+//                    Button(action: {
+//                        // 打开日历
+//                        self.showTodoList = false
+//                        self.showTodoInToday = false
+//                        self.showMenu = false
+//                        self.showCalendar = true
+//                    }) {
+//                        MenuRow(image: calendarMenu.icon, text: calendarMenu.title)
+//                    }
 
                     Button(action: {
                         // 登出
@@ -245,7 +247,8 @@ struct MenuView: View {
 
 struct TodoListHomeView_Previews: PreviewProvider {
     static var previews: some View {
-        MenuView(showMenu: .constant(true), showTodoInToday: .constant(false), showTodoList: .constant(true), showCalendar: .constant(false))
+//        MenuView(showMenu: .constant(true), showTodoInToday: .constant(false), showTodoList: .constant(true), showCalendar: .constant(false))
+        MenuView(showMenu: .constant(true), showTodoInToday: .constant(false), showTodoList: .constant(true))
     }
 }
 
