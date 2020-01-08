@@ -7,13 +7,17 @@
 //
 
 import SwiftUI
+import Alamofire
+import SwiftyJSON
 
 struct AddTodoItemView: View {
     // 保存数据使用的环境变量
     @Environment(\.managedObjectContext) var managedObjectContext
 
     // 点击取消按钮就关闭页面使用的环境变量
-    @Environment(\.presentationMode) var presentatonMode:Binding<PresentationMode>
+    @Environment(\.presentationMode) var presentatonMode: Binding<PresentationMode>
+
+    @FetchRequest(entity: User.entity(), sortDescriptors: [NSSortDescriptor(key: "username", ascending: true)]) var users: FetchedResults<User>
 
     @State private var remindMe = true
     @State var importance = 1
@@ -26,6 +30,12 @@ struct AddTodoItemView: View {
     let dateFormatter: DateFormatter = {
         let formatter = DateFormatter()
         formatter.dateFormat = "YYYYMMddHHMMSS"
+        return formatter
+    }()
+
+    let dateFormatter2: DateFormatter = {
+        let formatter = DateFormatter()
+        formatter.dateFormat = "YYYYMMdd"
         return formatter
     }()
 
@@ -59,6 +69,38 @@ struct AddTodoItemView: View {
                     newTodoItem.dueDate = self.newTodoItemDueDate
                     newTodoItem.checked = false
                     newTodoItem.timeStamp = self.dateFormatter.string(from: Date())  // "Jan 8, 2020 at 10:07:21 PM"
+                    let parameters: Dictionary = ["email": self.users[0].email,
+                                                  "detail": newTodoItem.detail,
+                                                  "due": self.dateFormatter2.string(from: newTodoItem.dueDate),
+                                                  "checked": newTodoItem.checked,
+                                                  "timestamp": newTodoItem.timeStamp, ] as [String: Any]
+                    Alamofire.request("https://ruitsai.tech/records_add_api/", method: .post, parameters: parameters)
+                            .responseJSON { response in
+                                switch response.result.isSuccess {
+                                case true:
+                                    if let value = response.result.value {
+                                        let json = JSON(value)
+                                        let state = json[0]["state"].stringValue
+                                        if state == "pass" {
+                                            // TODO: 跳出一个toast：thanks for register
+                                            // 注册框下滑消失
+                                            self.presentatonMode.wrappedValue.dismiss()
+                                        } else if state == "repeat" {
+                                            // TODO: 跳出一个toast：ops,Email has been sign up
+                                            print(state)
+                                        } else {
+                                            print("error")
+                                        }
+
+                                    } else {
+                                        print("error happened")
+                                    }
+                                case false:
+                                    print(response.result.error)
+                                }
+                            }
+
+
                     // 使用CoreData保存
                     do {
                         try self.managedObjectContext.save()
@@ -74,7 +116,7 @@ struct AddTodoItemView: View {
                         print(error)
                     }
                 }) {
-                    Text("Conform Adding").foregroundColor(Color.blue).position(x:170, y: 10).padding()
+                    Text("Conform Adding").foregroundColor(Color.blue).position(x: 170, y: 10).padding()
                 }
 //                .alert(isPresented: $addingTodoItemSuccess) {
 //                    Alert(title: Text("Success"), message: Text("Edit Successfully"))
@@ -83,8 +125,8 @@ struct AddTodoItemView: View {
                 Button(action: {
                     // 取消添加该代办事项
                     self.presentatonMode.wrappedValue.dismiss()
-                }){
-                    Text("Cancel Adding").foregroundColor(Color.red).position(x:170, y: 10).padding()
+                }) {
+                    Text("Cancel Adding").foregroundColor(Color.red).position(x: 170, y: 10).padding()
                 }
             }
                     .navigationBarTitle("Add Todo Item")

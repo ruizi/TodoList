@@ -16,6 +16,7 @@ struct TodoListView: View {
     @Environment(\.managedObjectContext) var managedObjectContext
     // 依照dueDate的大小升序排列
     @FetchRequest(entity: TodoItem.entity(), sortDescriptors: [NSSortDescriptor(key: "dueDate", ascending: true)]) var todoItems: FetchedResults<TodoItem> // todoItems的类型是FetchedResults<TodoItem>
+    @FetchRequest(entity: User.entity(), sortDescriptors: [NSSortDescriptor(key: "username", ascending: true)]) var users: FetchedResults<User>
 
     @State private var newToDoItemDetail = ""
 
@@ -72,8 +73,9 @@ struct TodoListView: View {
                                     // 删除待办事项
                                     let todoItem = self.todoItems[index]
 
-                                    let parameters: Dictionary = ["timestamp":todoItem.detail,]
-                                    Alamofire.request("https://ruitsai.tech/register_api/", method: .post, parameters: parameters)
+                                    let parameters: Dictionary = ["timestamp":todoItem.timeStamp,
+                                    "email": self.users[0].email,]
+                                    Alamofire.request("https://ruitsai.tech/records_checked_api/", method: .post, parameters: parameters)
                                             .responseJSON { response in
                                                 switch response.result.isSuccess {
                                                 case true:
@@ -81,9 +83,9 @@ struct TodoListView: View {
 
                                                         let json = JSON(value)
                                                         let state = json[0]["state"].stringValue
-                                                        if state == "pass" {
+                                                        if state == "sync success" {
                                                             // TODO: 跳出一个toast：thanks for register
-
+                                                            print("sync ok")
                                                         } else if state == "repeat" {
                                                             // TODO: 跳出一个toast：ops,Email has been sign up
                                                             print(state)
