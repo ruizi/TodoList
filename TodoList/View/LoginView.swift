@@ -118,7 +118,8 @@ struct LoginView: View {
                                             let json = JSON(value)
                                             let email = json[0]["email"].stringValue
                                             let password = json[0]["password"].stringValue
-                                            let username = json[0]["username"].stringValue
+                                            let username = json[0]["name"].stringValue
+                                            print("From LoginView Row 122: Cloud's request: username:", username)
                                             // 把用户的信息存储到数据库中
                                             let newUser = User(context: self.managedObjectContext)
                                             newUser.auth = "authorized"

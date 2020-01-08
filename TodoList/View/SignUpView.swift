@@ -129,6 +129,7 @@ struct SignUpView: View {
                                     switch response.result.isSuccess {
                                     case true:
                                         if let value = response.result.value {
+                                            print("From Signup Viwe Row 132: username:", self.username)
                                             let json = JSON(value)
                                             let state = json[0]["state"].stringValue
                                             if state == "pass" {
