@@ -47,6 +47,7 @@
 		1A09777323C3109B00C5DDBF /* CustomFonts.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A09777223C3109B00C5DDBF /* CustomFonts.swift */; };
 		1A09777723C3304600C5DDBF /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A09777623C3304600C5DDBF /* HomeView.swift */; };
 		3FBE965FCE6FB7BF3B4BA288 /* TodoInTodayView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FBE9A0905F86F8D953AC0D2 /* TodoInTodayView.swift */; };
+		3FBE9A2B63EAC97F94775453 /* ForgetPasswordView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FBE94320DE795B112C44933 /* ForgetPasswordView.swift */; };
 		3FBE9AA50281523C8219F22F /* TodoListHomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FBE9DD891CAD47547CB1665 /* TodoListHomeView.swift */; };
 		3FBE9E2C1A0BFDDB2208EC0D /* Contents.json in Resources */ = {isa = PBXBuildFile; fileRef = 3FBE9A21B21857967CA8CC4C /* Contents.json */; };
 		3FBE9F0471B4C6A3001668DE /* SettingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FBE97B71EA823D6C92D43C8 /* SettingView.swift */; };
@@ -96,6 +97,7 @@
 		1A09777223C3109B00C5DDBF /* CustomFonts.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomFonts.swift; sourceTree = "<group>"; };
 		1A09777623C3304600C5DDBF /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
 		3D4F6936A3A181E6FCE300E0 /* Pods-TodoList.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TodoList.debug.xcconfig"; path = "Target Support Files/Pods-TodoList/Pods-TodoList.debug.xcconfig"; sourceTree = "<group>"; };
+		3FBE94320DE795B112C44933 /* ForgetPasswordView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ForgetPasswordView.swift; sourceTree = "<group>"; };
 		3FBE97B71EA823D6C92D43C8 /* SettingView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingView.swift; sourceTree = "<group>"; };
 		3FBE9A0905F86F8D953AC0D2 /* TodoInTodayView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TodoInTodayView.swift; sourceTree = "<group>"; };
 		3FBE9A21B21857967CA8CC4C /* Contents.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = Contents.json; sourceTree = "<group>"; };
@@ -199,6 +201,7 @@
 				3FBE9DD891CAD47547CB1665 /* TodoListHomeView.swift */,
 				3FBE9A0905F86F8D953AC0D2 /* TodoInTodayView.swift */,
 				3FBE97B71EA823D6C92D43C8 /* SettingView.swift */,
+				3FBE94320DE795B112C44933 /* ForgetPasswordView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -422,6 +425,7 @@
 				3FBE9AA50281523C8219F22F /* TodoListHomeView.swift in Sources */,
 				3FBE965FCE6FB7BF3B4BA288 /* TodoInTodayView.swift in Sources */,
 				3FBE9F0471B4C6A3001668DE /* SettingView.swift in Sources */,
+				3FBE9A2B63EAC97F94775453 /* ForgetPasswordView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

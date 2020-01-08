@@ -26,6 +26,9 @@ struct LoginView: View {
     // 记录用户是否已经注册
     @State private var alreadySignUp = false
 
+    // 记录用户是否忘了密码，如果忘记了密码，该值为true
+    @State private var alreadyForgetPassword = false
+
 
     var body: some View {
         ZStack {
@@ -83,11 +86,14 @@ struct LoginView: View {
                             Spacer()
                             Button(action: /*@START_MENU_TOKEN@*/{
                                 // add actions
+                                self.alreadyForgetPassword.toggle()
                                 //ashdiuhaishdiuashdiuahu
                             }/*@END_MENU_TOKEN@*/) {
                                 Text("Forgot Password?")
                                         .scaledFont(name: "RobotoSlab-Light", size: 14)
                                         .foregroundColor(Color(#colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)))
+                            }.sheet(isPresented: $alreadyForgetPassword) {
+                                ForgetPassWordView()
                             }
                         }
                     }
