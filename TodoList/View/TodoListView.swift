@@ -15,25 +15,58 @@ struct TodoListView: View {
     @Environment(\.managedObjectContext) var managedObjectContext
     // 依照dueDate的大小升序排列
     @FetchRequest(entity: TodoItem.entity(), sortDescriptors: [NSSortDescriptor(key: "dueDate", ascending: true)]) var todoItems: FetchedResults<TodoItem> // todoItems的类型是FetchedResults<TodoItem>
-    
+
     @State private var newToDoItemDetail = ""
-    
+
     // 是否正在添加代办事项的标志，默认没有正在添加
     @State private var addingTodoItem = false
-    
+
+    var dateFormatter: DateFormatter {
+        let formatter = DateFormatter()
+        formatter.dateFormat = "yyyy-MM-dd"
+        return formatter
+    }
+
     var body: some View {
-        NavigationView {
-            ZStack {
+        ZStack {
+            VStack {
+                HStack {
+                    VStack {
+                        Text("Todo List")
+                                .font(.largeTitle)
+                                .fontWeight(.heavy)
+                        Text("\(todoItems.count) items")
+                                .foregroundColor(.gray)
+                    }
+                    Spacer()
+                }
+                        .padding(.leading, 100)
+
+
                 ScrollView {
                     ForEach(0 ..< todoItems.count, id:\.self) { index in
                         VStack {
+                            // 显示周五、下周等信息
+                            //更新提醒时间文本框
+//                            let formatter = DateFormatter()
+//                            //日期样式
+//                            formatter.dateFormat = "yyyy年MM月dd日"
+                            if index == 0 || self.dateFormatter.string(from: self.todoItems[index].dueDate) != self.dateFormatter.string(from: self.todoItems[index - 1].dueDate) {
+                                HStack {
+                                    Spacer().frame(width: 30)
+                                    Text(date2Word(date: self.todoItems[index].dueDate))
+                                    Spacer()
+                                }
+                            }
                             HStack {
                                 Spacer().frame(width: 5)
-                                
+
+
+
                                 // 仅显示每一条TodoItem的detail和dueDate，不显示是否被check
                                 TodoItemView(checked: self.todoItems[index].checked, dueDate: self.todoItems[index].dueDate, detail: self.todoItems[index].detail, index: index)
                                 Spacer().frame(width: 35)
-                                
+
                                 // 显示是否被check的按钮,点击按钮即为check(删除该事项)
                                 Button(action: {
                                     // 删除待办事项
@@ -46,9 +79,9 @@ struct TodoListView: View {
                                         VStack {
                                             Spacer().frame(width: 5)
                                             Image(systemName: "square")
-                                                .resizable()
-                                                .frame(width: 24, height: 24)
-                                                .foregroundColor(Color.gray)
+                                                    .resizable()
+                                                    .frame(width: 24, height: 24)
+                                                    .foregroundColor(Color.gray)
                                             Spacer().frame(width: 5)
                                         }
                                         Spacer()
@@ -58,22 +91,23 @@ struct TodoListView: View {
                         }
                     }
                 }
-                
-                // 右下角的添加事项的加号
-                Button(action: {
-                    // editingTodoItem取反
-                    self.addingTodoItem.toggle()
-                }) {
-                    btnAdd()
-                }.sheet(isPresented: $addingTodoItem) {
-                    AddTodoItemView()
-                     .environment(\.managedObjectContext, (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext)
-                }.offset(x: UIScreen.main.bounds.width/2 - 70, y: UIScreen.main.bounds.height/2 - 130).animation(.spring())
+                        .padding()
             }
-            .navigationBarTitle(Text("待办事项").foregroundColor(Color.white))
+            // 右下角的添加事项的加号
+            Button(action: {
+                // editingTodoItem取反
+                self.addingTodoItem.toggle()
+            }) {
+                btnAdd()
+            }.sheet(isPresented: $addingTodoItem) {
+                AddTodoItemView()
+                        .environment(\.managedObjectContext, (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext)
+            }.offset(x: UIScreen.main.bounds.width/2 - 70, y: UIScreen.main.bounds.height/2 - 130).animation(.spring())
         }
+                .padding(.top, 80)
+                .padding(.bottom, 83)
     }
-    
+
     func saveTodoItem() {
         do {
             try managedObjectContext.save()
@@ -89,14 +123,14 @@ struct btnAdd: View {
         ZStack {
             Group {
                 Circle()
-                    .fill(Color("btnAdd-bg"))
+                        .fill(Color("btnAdd-bg"))
             }.frame(width: self.size, height: self.size)
-                .shadow(color: Color("btnAdd-shadow"), radius: 10)
+                    .shadow(color: Color("btnAdd-shadow"), radius: 10)
             Group {
                 Image(systemName: "plus.circle.fill")
-                    .resizable()
-                    .frame(width: size, height: size)
-                    .foregroundColor(Color("theme"))
+                        .resizable()
+                        .frame(width: size, height: size)
+                        .foregroundColor(Color("theme"))
             }
         }
     }
@@ -105,7 +139,7 @@ struct btnAdd: View {
 struct TodoListView_Previews: PreviewProvider {
     static var previews: some View {
         TodoListView()
-        .environment(\.managedObjectContext, (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext)
-        
+                .environment(\.managedObjectContext, (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext)
+
     }
 }
