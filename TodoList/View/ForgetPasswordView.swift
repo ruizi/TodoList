@@ -16,6 +16,8 @@ struct ForgetPassWordView: View {
     // 点击确认修改按钮就关闭页面这一功能使用的环境变量
     @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
 
+    // 收验证码的邮箱
+    @State private var email: String = ""
 
     // 从邮箱中查看的authCode
     @State private var authCode: String = ""
@@ -50,6 +52,25 @@ struct ForgetPassWordView: View {
                     VStack(alignment: .center, spacing: 10) {
 
                         VStack(alignment: .center, spacing: 30) {
+                            // 输入email
+                            VStack(alignment: .center, spacing: 10) {
+                                HStack(alignment: .center, spacing: 10) {// input username
+                                    Image(systemName: "envelope")
+                                            .foregroundColor(.white)
+                                            .frame(width: 20, height: 20)
+                                    CustomTextField(
+                                            placeholder: Text("Enter your Email")
+                                                    .foregroundColor(Color(#colorLiteral(red: 1, green: 1, blue: 1, alpha: 1))),
+                                            text: $email)
+
+                                    if email != "" {
+                                        Image(systemName: "checkmark.circle.fill").foregroundColor(Color.green)
+                                    }
+                                }
+                                Divider()
+                                        .background(Color.gray)
+                            }
+
                             // 输入authCode
                             VStack(alignment: .center, spacing: 10) {
                                 HStack(alignment: .center, spacing: 10) {// input username
@@ -113,22 +134,35 @@ struct ForgetPassWordView: View {
 
                     // Button
                     Spacer().frame(height: 10)
-                    Button(action: {
-                        print("From ForgetPasswordView Row 114:", " authCode:", self.authCode, " newPassword:", self.newPassword, "newPassword Again:", self.newPasswordAgain)
-                        // TODO: 把修改后的密码存到云端数据库
 
-                        // ForgetPasswordView消失
-                        self.presentationMode.wrappedValue.dismiss()
-                    }) {
-                        Image(systemName: "arrow.right")
-                                .accentColor(Color.white)
-                                .font(.headline)
-                                .frame(width: 60, height: 60)
-                                .background(Color(#colorLiteral(red: 0.2392156869, green: 0.6745098233, blue: 0.9686274529, alpha: 1)))
-                                .cornerRadius(30)
+                    HStack {
+                        Button(action: {
+                            // 点击后向发送邮件
+                        }) {
+                            Image(systemName: "arrow.right")
+                                    .accentColor(Color.white)
+                                    .font(.headline)
+                                    .frame(width: 60, height: 60)
+                                    .background(Color(#colorLiteral(red: 0.2392156869, green: 0.6745098233, blue: 0.9686274529, alpha: 1)))
+                                    .cornerRadius(30)
 
+                        }.padding(.bottom, 100)
+
+                        Button(action: {
+                            // TODO: 把修改后的密码存到云端数据库
+
+                            // ForgetPasswordView消失
+                            self.presentationMode.wrappedValue.dismiss()
+                        }) {
+                            Image(systemName: "arrow.right")
+                                    .accentColor(Color.white)
+                                    .font(.headline)
+                                    .frame(width: 60, height: 60)
+                                    .background(Color(#colorLiteral(red: 0.2392156869, green: 0.6745098233, blue: 0.9686274529, alpha: 1)))
+                                    .cornerRadius(30)
+
+                        }.padding(.bottom, 100)
                     }
-                            .padding(.bottom, 100)
                 }
                 Spacer()
             }
