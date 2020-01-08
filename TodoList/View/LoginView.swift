@@ -161,27 +161,30 @@ struct LoginView: View {
                                             let json = JSON(value)
 
                                             print(json)
-//                                            // 把用户的日程信息存入数据库
-//                                            for (index, subJson): (String, JSON) in json {
-//                                                let detail = subJson["detail"].stringValue
-//                                                let dueDate = subJson["due"].stringValue
-//                                                let timestamp = subJson["timestamp"].stringValue
-//                                                let newTodoItem = TodoItem(context: self.managedObjectContext)
-//                                                newTodoItem.detail = detail
-//                                                //newTodoItem.dueDate = dueDate
-//                                                newTodoItem.checked = false
-//                                                newTodoItem.timeStamp = timestamp  // 20200108234117
-//                                                // 使用CoreData保存
-//                                                do {
-//                                                    try self.managedObjectContext.save()
-//                                                } catch {
-//                                                    print("***")
-//                                                    print(newTodoItem.detail)
-//                                                    print(newTodoItem.dueDate)
-//                                                    print(newTodoItem.checked)
-//                                                    print(error)
-//                                                }
-//                                            }
+                                            // 把用户的日程信息存入数据库
+                                            for (index, subJson): (String, JSON) in json {
+                                                let detail = subJson["detail"].stringValue
+                                                var Year = subJson["Year"].stringValue
+                                                var Month = subJson["Month"].stringValue
+                                                var Day = subJson["Day"].stringValue
+
+                                                let timestamp = subJson["timestamp"].stringValue
+                                                let newTodoItem = TodoItem(context: self.managedObjectContext)
+                                                newTodoItem.detail = detail
+                                                newTodoItem.dueDate = Date(year: Int(Year) ?? 2020, month: Int(Month) ?? 01, day: Int(Day) ?? 10)
+                                                newTodoItem.checked = false
+                                                newTodoItem.timeStamp = timestamp  // 20200108234117
+                                                // 使用CoreData保存
+                                                do {
+                                                    try self.managedObjectContext.save()
+                                                } catch {
+                                                    print("***")
+                                                    print(newTodoItem.detail)
+                                                    print(newTodoItem.dueDate)
+                                                    print(newTodoItem.checked)
+                                                    print(error)
+                                                }
+                                            }
 
 
                                         } else {
