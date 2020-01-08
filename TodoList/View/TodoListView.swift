@@ -7,7 +7,8 @@
 //
 
 import SwiftUI
-
+import Alamofire
+import SwiftyJSON
 
 struct TodoListView: View {
     // @Environment的作用是从环境中取出预定义的值
@@ -44,7 +45,7 @@ struct TodoListView: View {
 
 
                 ScrollView {
-                    ForEach(0 ..< todoItems.count, id:\.self) { index in
+                    ForEach(0..<todoItems.count, id: \.self) { index in
                         VStack {
                             // 显示周五、下周等信息
                             //更新提醒时间文本框
@@ -62,7 +63,6 @@ struct TodoListView: View {
                                 Spacer().frame(width: 5)
 
 
-
                                 // 仅显示每一条TodoItem的detail和dueDate，不显示是否被check
                                 TodoItemView(checked: self.todoItems[index].checked, dueDate: self.todoItems[index].dueDate, detail: self.todoItems[index].detail, index: index)
                                 Spacer().frame(width: 35)
@@ -71,6 +71,34 @@ struct TodoListView: View {
                                 Button(action: {
                                     // 删除待办事项
                                     let todoItem = self.todoItems[index]
+
+                                    let parameters: Dictionary = ["timestamp":todoItem.detail,]
+                                    Alamofire.request("https://ruitsai.tech/register_api/", method: .post, parameters: parameters)
+                                            .responseJSON { response in
+                                                switch response.result.isSuccess {
+                                                case true:
+                                                    if let value = response.result.value {
+
+                                                        let json = JSON(value)
+                                                        let state = json[0]["state"].stringValue
+                                                        if state == "pass" {
+                                                            // TODO: 跳出一个toast：thanks for register
+
+                                                        } else if state == "repeat" {
+                                                            // TODO: 跳出一个toast：ops,Email has been sign up
+                                                            print(state)
+                                                        } else {
+                                                            print("error")
+                                                        }
+
+                                                    } else {
+                                                        print("error happened")
+                                                    }
+                                                case false:
+                                                    print(response.result.error)
+                                                }
+                                            }
+
                                     self.managedObjectContext.delete(todoItem)
                                     self.saveTodoItem()
                                 }) {
@@ -102,7 +130,7 @@ struct TodoListView: View {
             }.sheet(isPresented: $addingTodoItem) {
                 AddTodoItemView()
                         .environment(\.managedObjectContext, (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext)
-            }.offset(x: UIScreen.main.bounds.width/2 - 70, y: UIScreen.main.bounds.height/2 - 130).animation(.spring())
+            }.offset(x: UIScreen.main.bounds.width / 2 - 70, y: UIScreen.main.bounds.height / 2 - 130).animation(.spring())
         }
                 .padding(.top, 80)
                 .padding(.bottom, 83)
