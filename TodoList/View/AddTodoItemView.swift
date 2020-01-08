@@ -22,13 +22,12 @@ struct AddTodoItemView: View {
     @State private var newTodoItemDetail = ""
     @State private var addingTodoItemSuccess = false
 
-    let dateFormatter: DateFormatter = {
-        let dateFormatter = DateFormatter()
-        dateFormatter.dateStyle = .medium
-        dateFormatter.timeStyle = .medium
-        return dateFormatter
-    }()
 
+    let dateFormatter: DateFormatter = {
+        let formatter = DateFormatter()
+        formatter.dateFormat = "YYYYMMddHHMMSS"
+        return formatter
+    }()
 
 
     // form 表格形式
