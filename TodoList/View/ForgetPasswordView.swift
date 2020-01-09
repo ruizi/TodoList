@@ -67,6 +67,36 @@ struct ForgetPassWordView: View {
                                     if email != "" {
                                         Image(systemName: "checkmark.circle.fill").foregroundColor(Color.green)
                                     }
+
+                                    // 发送邮件的Button
+                                    Button(action: {
+                                        // 点击后向发送邮件
+                                        let parameters: Dictionary = ["email": self.email, ]
+                                        Alamofire.request("https://ruitsai.tech/password_find_back_api/", method: .post, parameters: parameters)
+                                                .responseJSON { response in
+                                                    switch response.result.isSuccess {
+                                                    case true:
+                                                        if let value = response.result.value {
+                                                            let json = JSON(value)
+                                                            let state = json[0]["state"].stringValue
+                                                            if state == "processed" {
+                                                                print("OK")
+                                                            } else {
+                                                                print("error")
+                                                            }
+                                                        } else {
+                                                            // TODO: 跳出一个弹框：network errors
+                                                            print("error happened")
+                                                        }
+                                                    case false:
+                                                        print(response.result.error)
+                                                    }
+                                                }
+                                    }) {
+                                        Image(systemName: "paperplane")
+                                                .foregroundColor(.white)
+                                                .frame(width: 20, height: 20)
+                                    }
                                 }
                                 Divider()
                                         .background(Color.gray)
@@ -136,80 +166,45 @@ struct ForgetPassWordView: View {
                     // Button
                     Spacer().frame(height: 10)
 
-                    HStack {
-                        Button(action: {
-                            // 点击后向发送邮件
-                            let parameters: Dictionary = ["email": self.email, ]
-                            Alamofire.request("https://ruitsai.tech/password_find_back_api/", method: .post, parameters: parameters)
-                                    .responseJSON { response in
-                                        switch response.result.isSuccess {
-                                        case true:
-                                            if let value = response.result.value {
-                                                let json = JSON(value)
-                                                let state = json[0]["state"].stringValue
-                                                if state == "processed" {
-                                                    print("OK")
-                                                } else {
-                                                    print("error")
-                                                }
+                    Button(action: {
+                        // TODO: 把修改后的密码存到云端数据库
+                        let parameters: Dictionary = ["email": self.email,
+                                                      "authCode": self.authCode,
+                                                      "newPassword": self.newPassword]
+                        Alamofire.request("https://ruitsai.tech/password_change_api/", method: .post, parameters: parameters)
+                                .responseJSON { response in
+                                    switch response.result.isSuccess {
+                                    case true:
+                                        if let value = response.result.value {
+                                            let json = JSON(value)
+                                            let state = json[0]["state"].stringValue
+                                            if state == "password_back" {
+                                                print("OK")
+                                                // ForgetPasswordView消失
+                                                self.presentationMode.wrappedValue.dismiss()
                                             } else {
-                                                // TODO: 跳出一个弹框：network errors
-                                                print("error happened")
+                                                // TODO: 跳出一个弹框：authcode error
+                                                print("authcode_error")
                                             }
-                                        case false:
-                                            print(response.result.error)
+                                        } else {
+                                            // TODO: 跳出一个弹框：network errors
+                                            print("error happened")
                                         }
+                                    case false:
+                                        print(response.result.error)
                                     }
-                        }) {
-                            Image(systemName: "arrow.right")
-                                    .accentColor(Color.white)
-                                    .font(.headline)
-                                    .frame(width: 60, height: 60)
-                                    .background(Color(#colorLiteral(red: 0.2392156869, green: 0.6745098233, blue: 0.9686274529, alpha: 1)))
-                                    .cornerRadius(30)
-
-                        }.padding(.bottom, 100)
-
-                        Button(action: {
-                            // TODO: 把修改后的密码存到云端数据库
-                            let parameters: Dictionary = ["email": self.email,
-                                                          "authCode": self.authCode,
-                                                          "newPassword": self.newPassword]
-                            Alamofire.request("https://ruitsai.tech/password_change_api/", method: .post, parameters: parameters)
-                                    .responseJSON { response in
-                                        switch response.result.isSuccess {
-                                        case true:
-                                            if let value = response.result.value {
-                                                let json = JSON(value)
-                                                let state = json[0]["state"].stringValue
-                                                if state == "password_back" {
-                                                    print("OK")
-                                                    // ForgetPasswordView消失
-                                                    self.presentationMode.wrappedValue.dismiss()
-                                                } else {
-                                                    // TODO: 跳出一个弹框：authcode error
-                                                    print("authcode_error")
-                                                }
-                                            } else {
-                                                // TODO: 跳出一个弹框：network errors
-                                                print("error happened")
-                                            }
-                                        case false:
-                                            print(response.result.error)
-                                        }
-                                    }
+                                }
 
 
-                        }) {
-                            Image(systemName: "arrow.right")
-                                    .accentColor(Color.white)
-                                    .font(.headline)
-                                    .frame(width: 60, height: 60)
-                                    .background(Color(#colorLiteral(red: 0.2392156869, green: 0.6745098233, blue: 0.9686274529, alpha: 1)))
-                                    .cornerRadius(30)
+                    }) {
+                        Image(systemName: "arrow.right")
+                                .accentColor(Color.white)
+                                .font(.headline)
+                                .frame(width: 60, height: 60)
+                                .background(Color(#colorLiteral(red: 0.2392156869, green: 0.6745098233, blue: 0.9686274529, alpha: 1)))
+                                .cornerRadius(30)
 
-                        }.padding(.bottom, 100)
-                    }
+                    }.padding(.bottom, 100)
                 }
                 Spacer()
             }
