@@ -1,3 +1,3 @@
 # TodoList
-this is an SwiftUI IOS reminder app which used to set up some reminder in your daily life.
+this is a SwiftUI IOS reminder app which used to set up some reminders in your daily life.
 
